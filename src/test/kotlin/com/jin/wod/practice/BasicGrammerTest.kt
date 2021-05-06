@@ -32,5 +32,4 @@ class BasicGrammerTest {
         .isEqualTo(listOf("AVOCADO", "APPLE"))
     }
 
-
 }
