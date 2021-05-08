@@ -8,10 +8,7 @@ import org.springframework.test.context.TestConstructor
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.get
 
-@SpringBootTest
-@AutoConfigureMockMvc
-@TestConstructor(autowireMode = TestConstructor.AutowireMode.ALL)
-class Test(val mockMvc: MockMvc) {
+class Test(val mockMvc: MockMvc): RestApiTestBase() {
 
     @Test
     fun test() {
