@@ -12,7 +12,7 @@ class Item(
     var type: ItemType,
     @Embedded
     var color: Color,
-    @OneToMany(mappedBy = "item_id", cascade = [CascadeType.ALL])
+    @OneToMany(mappedBy = "item", cascade = [CascadeType.ALL])
     var stocks: List<ItemStock> = ArrayList()
 ) {
 }
