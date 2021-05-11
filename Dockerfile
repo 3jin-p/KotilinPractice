@@ -1,4 +1,4 @@
-FROM java:11
+FROM adoptopenjdk/openjdk11
 RUN echo "CONFIGURE APP ENVIRONMENTS.............."
 ENV APP_HOME /app
 ENV LOG_FILE_PATH /log
