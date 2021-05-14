@@ -1,11 +1,12 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/test_db?useSSL=false
+    url: jdbc:mysql://db:3306/test_db?useSSL=false
     username: sj
     password: 1234
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
+    database-platform: org.hibernate.dialect.MySQLDialect
     hibernate:
       ddl-auto: update
     generate-ddl: true

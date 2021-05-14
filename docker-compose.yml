@@ -1,10 +1,12 @@
 version: "3.6"
 services:
   db:
-    image: mysql
+    image: library/mysql:5.7
+    platform: linux/amd64
     environment:
       MYSQL_DATABASE: test_db
       MYSQL_USER: sj
+      MYSQL_PASSWORD: 1234
       MYSQL_ROOT_PASSWORD: 1234
       MYSQL_ROOT_HOST: '%'
     ports:
