@@ -106,3 +106,50 @@ Kotlin에는 String? 의 확장함수 isNullOrBlank() 라는 함수가 있다.
 이 함수는 런타임에서 null.isNullOrBlank() 로 실행이 되어도 예외가 발생하지 않는다.  
 Nullable 값에 확장함수를 정의하고, 내부에서 명시적으로 null 체크와 처리를 해주면, 유연하게 확장함수를 사용할 수 있다.
   
+### 2. Kotlin Primitive Type  
+Kotlin 은 원시타입과 래퍼타입을 구분하지 않는다.
+코틀린은 런타임에서 원시타입과 래퍼타입을 가장 효율적이게 지정한다.  
+nullable 한 프로퍼티와 제너릭 파라미터는 항상 래퍼 타입으로 지정된다.  
+
+**2-1. 숫자변환**
+Kotlin은 Java와 달리 숫자에 대한 자동 변환을 제공하지 않는다. 
+``` kotlin
+fun foo() {
+    var a: Long = 1L
+    var b: Int = 1
+    val c = a + b --> Compile Error  
+}
+```
+그로인해 코틀린은 모든 숫자 원시타입에 대하여 변환 함수를 제공한다. (toInt(), toLong...) 
+코틀린에서 수 변환은 항상 명시적으로 지정해주어야 한다. 
+
+**2-2 Unit 타입**
+Unit 타입은 Java 의 Void 와 대응된다.  
+거의 모든 기능이 유사하지만, 2가지 차이점이 있다.    
+1. void와 달리 Unit을 타입 인자로 쓸 수 있다. 
+2. Unit 타입에 속한 값은 단 하나뿐이며 Unit 타입의 함수는 Unit 값을 묵시적 으로 반환한다. 
+
+이 두 특성은 제네릭 파라미터를 반환하는 함수를 오버라이드하면서 반환 타입으로 Unit을 쓸 때 유용하다.
+``` kotlin
+interface Processor<T> { 
+    fun process(): T
+}
+class NoResultProcessor : Processor<Unit> { 
+    override fun process() { <- 무언가를 리턴할 필요가 없다.
+    }
+}
+```
+
+**2-3.Nothing**   
+Nothing 역시 void 와 비슷하지만 의미적으로 차이가 있다.  
+Nothing 은 반환타입으로만 사용되는, 해당 함수가 정상적으로 종료되지 않는다는 명시적인 표현이다.  
+``` kotlin
+fun fail(message: String):Nothing { 
+    throw IllegalStateException (message)
+} <- 명시적으로 정상적인 종료 케이스가 없는 함수라는걸 알 수 있다.
+
+val address = company.address ?: fail ("No address")
+```
+
+
+
