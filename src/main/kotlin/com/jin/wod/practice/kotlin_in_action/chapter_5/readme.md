@@ -6,7 +6,7 @@ Kotlin 타입 시스템
 ``` kotlin
 var name: String?
    
-fun strLenSafe(s: String? 》 = ...
+fun strLenSafe(s: String?) = ...
 ```  
 nullable 변수는 non nullable 변수에 할당할 수 없다.
 ``` kotlin
@@ -19,12 +19,13 @@ ERROR: Type mismatch: inferred type is String? but String was expected
 **1-1. 안전한 호출 연산자: ?.**   
  ?.은 null 검사와 메소드 호출을 한 번의 연산으로 수행한다.
 ``` kotlin
-fun printAUCaps(s:String?) {
-   val alICaps:String? = s?.toUpperCase() println(allCaps》
+fun printCaps(s:String?) {
+   val caps: String? = s?.toUpperCase() 
+   println(caps》
 }
 
 java 
---> if (s != null) { allCaps = s.toUpperCase() } else { allCaps = null }
+--> if (s != null) { caps = s.toUpperCase() } else { caps = null }
 
 fun foo() {
    // 호출 연산자 연쇄
