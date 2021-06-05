@@ -1,9 +1,8 @@
-package com.jin.wod.practice.kotlin_in_action.chapter_5
+package com.jin.wod.practice.kotlin_in_action.chapter_6
 
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.Test
-import java.lang.IllegalArgumentException
 
 class NullableTest {
 

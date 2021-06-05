@@ -1,4 +1,4 @@
-package com.jin.wod.practice.kotlin_in_action.chapter_5
+package com.jin.wod.practice.kotlin_in_action.chapter_6
 
 class Car(var energy: Int?) {
     var price: Int = 10
