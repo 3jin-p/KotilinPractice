@@ -54,4 +54,64 @@ fun printErrorCounts (responses: Collection<String>) {
 ex ) map, filter, all, any, count, find, groupBy .... 자세한 내용은 따로 찾아보도록 한다.  
 
 **5. flatMap과 flatten 중첩된 컬렉션 안의 원소 처리**  
+flatMap 함수는 람다를 컬렉션의 모든 객체에 적용하고, 결과로 얻어지는 리스트를 하나의 리스트로 모은다.  
+````kotlin
+val strings = listOf("abc", "def", "fed")
+println(strings.flatMap { it.toList() }) //String.toList() 로 각 원소를 리스트로 만든뒤, 하나로 합친다.
+// [a, b, c, d, e, f, f, e, d]
+````
+flatten 함수는 원소의 가공없이 펼치기만 하는데 사용한다. 
+````kotlin
+val stringListOfList = listOf(listOf("a","b"), listOf("c", "d"))
+println(stringListOfList.flatten())
+// [a, b, c, d]
+````
 
+**6. 컬렉션의 Lazy 연산**  
+앞에서 소개한 컬렉션 함수들은, 매 연산마다 즉시 결과컬렉션을 생성한다.  
+Sequence 를 사용하면 필요할때만 연산을 하고 컬렉션 생성을 한번만 할 수 있다.  
+````kotlin
+people.map(Person::name).filter { it.startsWith("A") }
+````
+코틀린 라이브러리 문서를 참조하면, map() 과 filter() 는 각각 리스트를 반환한다고 적혀있다.  
+이는 컬렉션 연산의 연쇄가 여러개의 리스트를 만든다는 뜻이다.  
+원소가 많은 경우 이는 성능에 큰 결함이 될 수 있다.  
+Sequence 를 이용하여 이를 개선할 수 있다.  
+````kotlin
+people.asSequence()
+    .map(Person::name)
+    .filter { it.startsWith("A") }
+    .toList()
+````
+Sequence 는 iterater 메서드만을 가지고 있다. 원소를 순차적으로 소비한다면, 시퀀스를 그대로 사용하여도 좋고  
+Index 로 원소에 접근하는 등의 행위가 필요하다면 toList() 로 변환하여 사용하면 된다.  
+
+Sequence 는 필요하기 전까지 연산을 수행하지 않는다. 즉 toList() 와 같이 최종 연산을 하지 않으면 연산도 하지 않으며, Sequence 의 참조만 반환한다.  
+
+````kotlin
+listOf(1, 2, 3).asSequence()
+    .map(it * it) 
+    .filter { print("$it"); it % 2 == 0 } // 이 코드는 아무것도 출력하지 않는다. 
+
+listOf(1, 2, 3).asSequence()
+    .map(it * it)
+    .filter { print("$it"); it % 2 == 0 }
+    .toList() // toList() 하는 시점에서 모든 연산결과가 계산된다
+// 1, 4, 9
+````
+Sequence 가 Java의 스트림과 동일하다고 생각하면 이해가 쉽다.  
+  
+**7. 수신 객체 지정 람다**  
+with 과 apply 는 동일하지만 apply 는 꼭 수신객체를 리턴 해야한다.
+````kotlin
+fun createAlphabet(): String {
+    val stringBuilder = StringBuilder()
+    return with(stringBuilder) { // 수신 객체 지정 (stringBuilder)
+        for (letter in 'A'..'Z') {
+            this.append(letter) // this 로 수신 객체에 접근
+        }
+        append("Now I know the Alphabet") // this 명시없이 stringBuilder 호출
+        this.toString() // Lambda 값 반환
+    }
+}
+````
